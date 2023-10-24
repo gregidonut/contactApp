@@ -1,16 +1,54 @@
 {{ define "contacts" }}
-    <ul>
+    <style>
+        ul#contacts {
+            width: max-content;
+
+            list-style: none;
+
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            gap: 2rem;
+
+            padding: 0 1rem;
+        }
+
+        ul#contacts li {
+            width: 100%;
+            background: orange;
+            padding: 1rem;
+        }
+
+        ul#contacts li h3 {
+            color: purple;
+        }
+
+    </style>
+    <ul id="contacts">
         {{ range . }}
             <li>
                 <h3>
                     {{ .FirstName }} {{ .LastName }}
                 </h3>
                 <p>
-                    Phone: <a href="tel:+{{ .PhoneNumber }}">{{ .PhoneNumber }}</a>
+                    Phone:
+                    <a href="tel:+{{ .PhoneNumber }}">
+                        <span class="phone-number-text">
+                            {{ .PhoneNumber }}
+                        </span>
+                    </a>
                     <br>
                     Email: <a href="mailto:{{ .EmailAddress }}">{{ .EmailAddress }}</a>
                 </p>
             </li>
         {{ end }}
     </ul>
+    <script>
+        // adding dashes to the phone numbers
+        const phoneNumberSpanElems = document.querySelectorAll("span.phone-number-text")
+        phoneNumberSpanElems.forEach((baseElem) => {
+            baseElem.innerText = baseElem.innerText.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")
+        })
+    </script>
 {{ end }}
