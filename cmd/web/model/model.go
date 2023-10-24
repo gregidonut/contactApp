@@ -13,7 +13,7 @@ import (
 // can be neatly bridged over to the main application object
 type Model struct {
 	app      appInterface.AppInterface
-	contacts []*contact.Contact
+	contacts map[int]*contact.Contact //set
 }
 
 func NewModel(app appInterface.AppInterface) (*Model, error) {
@@ -22,11 +22,15 @@ func NewModel(app appInterface.AppInterface) (*Model, error) {
 
 	payload := new(Model)
 	payload.app = app
+	payload.contacts = map[int]*contact.Contact{}
 
 	return payload, nil
 }
 
-func (m *Model) SearchContacts(filters ...string) ([]*contact.Contact, error) {
+func (m *Model) SearchContacts(filters ...string) (map[int]*contact.Contact, error) {
+	m.app.Info("running SearchContacts method...")
+	defer m.app.Info("finished running SearchContacts method!")
+
 	//{{ mocking the generation of contacts;
 	//   in the real world, this search would probably be done by searching from the result
 	//   of a database query or better yet, maybe the orm has a search api that can be called
@@ -35,13 +39,18 @@ func (m *Model) SearchContacts(filters ...string) ([]*contact.Contact, error) {
 		return nil, err
 	}
 
-	err = json.Unmarshal(jsonData, &m.contacts)
+	var aux []*contact.Contact
+	err = json.Unmarshal(jsonData, &aux)
 	if err != nil {
 		return nil, err
 	}
+
+	for _, i := range aux {
+		m.contacts[i.ID] = i
+	}
 	//}}
 
-	var payload []*contact.Contact
+	payload := map[int]*contact.Contact{}
 
 	if (len(filters) == 1 && filters[0] == "") || len(filters) == 0 || filters == nil {
 		m.app.Warning("search contacts called without args returning all contacts")
@@ -60,7 +69,7 @@ func (m *Model) SearchContacts(filters ...string) ([]*contact.Contact, error) {
 				if !strings.Contains(strings.ToLower(fieldValue), strings.ToLower(filter)) {
 					continue
 				}
-				payload = append(payload, cont)
+				payload[cont.ID] = cont
 			}
 		}
 	}
