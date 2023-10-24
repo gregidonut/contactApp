@@ -5,6 +5,8 @@ import (
 	"github.com/gregidonut/contactApp/cmd/web/model/contact"
 	"github.com/gregidonut/contactApp/cmd/web/utils/appInterface"
 	"os"
+	"reflect"
+	"strings"
 )
 
 // Model is responsible for wrapping all the model objects so that they
@@ -46,11 +48,22 @@ func (m *Model) SearchContacts(filters ...string) ([]*contact.Contact, error) {
 		return m.contacts, nil
 	}
 
-	//for _, filter := range filters {
-	//	for _, cont := range m.contacts {
-	//
-	//	}
-	//}
+	for _, filter := range filters {
+		for _, cont := range m.contacts {
+			v := reflect.ValueOf(*cont)
+			for i := 0; i < v.NumField(); i++ {
+				field := v.Field(i)
+				if field.Kind() != reflect.String {
+					continue
+				}
+				fieldValue := field.String()
+				if !strings.Contains(strings.ToLower(fieldValue), strings.ToLower(filter)) {
+					continue
+				}
+				payload = append(payload, cont)
+			}
+		}
+	}
 
 	return payload, nil
 }
