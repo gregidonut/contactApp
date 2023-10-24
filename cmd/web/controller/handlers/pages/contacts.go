@@ -1,7 +1,6 @@
 package pages
 
 import (
-	"fmt"
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
 	"html/template"
 	"net/http"
@@ -15,10 +14,8 @@ func Contacts(w http.ResponseWriter, r *http.Request, app *application.Applicati
 		return
 	}
 
-	app.Debug(fmt.Sprintf("printing out a list of matches"))
-	for _, match := range searchMatches {
-		app.Debug(fmt.Sprintf("%#v", match))
-	}
+	//app.Debug("printing out a list of matches")
+	app.Logger.Debug("search matches as set", "searchMatches", searchMatches)
 
 	files := []string{
 		"./ui/html/base.gohtml",
