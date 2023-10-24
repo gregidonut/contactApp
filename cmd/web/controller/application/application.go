@@ -50,5 +50,5 @@ func (app *Application) CatchHandlerErr(w http.ResponseWriter, err error, status
 	http.Error(w, err.Error(), status)
 
 logToSLog:
-	app.Logger.Error("controller error", slog.With(err))
+	app.Logger.Error("controller error", "err.Error()", err.Error())
 }
