@@ -14,5 +14,9 @@ func Contacts(w http.ResponseWriter, r *http.Request, app *application.Applicati
 		return
 	}
 
-	app.Debug(fmt.Sprintf("searchMatches: %#v", searchMatches))
+	app.Debug(fmt.Sprintf("printing out a list of matches"))
+	for _, match := range searchMatches {
+		app.Debug(fmt.Sprintf("%#v", match))
+	}
+
 }

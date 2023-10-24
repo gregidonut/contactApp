@@ -38,7 +38,7 @@ func main() {
 		mux.HandleFunc(fmt.Sprintf("%s", endpoint), handler.HandlerFunc())
 	}
 
-	mainAppObj.Logger.Debug(fmt.Sprintf("Starting server on %s", DEFAULT_PORT))
+	mainAppObj.Logger.Info(fmt.Sprintf("Starting server on %s", DEFAULT_PORT))
 	err = http.ListenAndServe(DEFAULT_PORT, mux)
 	mainAppObj.Logger.Error(err.Error())
 }
