@@ -3,6 +3,7 @@ package pages
 import (
 	"fmt"
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
+	"html/template"
 	"net/http"
 )
 
@@ -19,4 +20,21 @@ func Contacts(w http.ResponseWriter, r *http.Request, app *application.Applicati
 		app.Debug(fmt.Sprintf("%#v", match))
 	}
 
+	files := []string{
+		"./ui/html/base.gohtml",
+		"./ui/html/pages/index.gohtml",
+		"./ui/html/components/contacts.gohtml",
+	}
+
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
+		return
+	}
+
+	err = ts.ExecuteTemplate(w, "base", searchMatches)
+	if err != nil {
+		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
+		return
+	}
 }

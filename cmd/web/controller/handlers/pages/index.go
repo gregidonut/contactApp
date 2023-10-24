@@ -6,5 +6,6 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request, app *application.Application) {
-	http.Redirect(w, r, "/contacts", http.StatusPermanentRedirect)
+	app.Debug(`redirecting to "/contacts" endpoint`)
+	http.Redirect(w, r, "/contacts", http.StatusTemporaryRedirect)
 }

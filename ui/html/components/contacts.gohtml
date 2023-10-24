@@ -1,0 +1,16 @@
+{{ define "contacts" }}
+    <ul>
+        {{ range . }}
+            <li>
+                <h3>
+                    {{ .FirstName }} {{ .LastName }}
+                </h3>
+                <p>
+                    Phone: <a href="tel:+{{ .PhoneNumber }}">{{ .PhoneNumber }}</a>
+                    <br>
+                    Email: <a href="mailto:{{ .EmailAddress }}">{{ .EmailAddress }}</a>
+                </p>
+            </li>
+        {{ end }}
+    </ul>
+{{ end }}
