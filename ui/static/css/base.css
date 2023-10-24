@@ -1,0 +1,13 @@
+header,
+footer {
+    width: 100%;
+    background: dimgrey;
+    padding: 0 2rem;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}

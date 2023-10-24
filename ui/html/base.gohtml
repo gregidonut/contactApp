@@ -1,0 +1,25 @@
+{{define "base"}}
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>skim - {{template "title" .}}</title>
+        <link rel="stylesheet" href="/static/css/reset.css">
+        <link rel="stylesheet" href="/static/css/base.css">
+    </head>
+    <body>
+
+    <header>
+        <h1><a href="/">ContactApp</a></h1>
+    </header>
+    {{template "main" .}}
+
+    <footer>
+        <p>made with ♥️ by <a href="https://www.linkedin.com/in/gregory-babajide-v-osilaja-8158211a0/">Greg Osilaja</a>
+            | <a href="">Github</a></p>
+    </footer>
+
+    </body>
+    </html>
+{{end}}
