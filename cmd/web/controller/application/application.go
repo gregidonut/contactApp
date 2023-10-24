@@ -10,7 +10,7 @@ import (
 // Application is the main application object
 type Application struct {
 	Logger *slog.Logger
-	model  *model.Model
+	Model  *model.Model
 }
 
 func (app *Application) NewHandlerFunc(
@@ -31,6 +31,13 @@ func NewApplication() (*Application, error) {
 	}
 	handler := slog.NewJSONHandler(os.Stdout, &options)
 	payload.Logger = slog.New(handler)
+
+	m, err := model.NewModel(payload)
+	if err != nil {
+		payload.Logger.Error(err.Error())
+	}
+
+	payload.Model = m
 
 	return payload, nil
 }

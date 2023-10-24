@@ -8,5 +8,11 @@ import (
 
 func Contacts(w http.ResponseWriter, r *http.Request, app *application.Application) {
 	search := r.URL.Query().Get("q")
-	app.Debug(fmt.Sprintf("search: %s", search))
+	searchMatches, err := app.Model.SearchContacts(search)
+	if err != nil {
+		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
+		return
+	}
+
+	app.Debug(fmt.Sprintf("searchMatches: %#v", searchMatches))
 }
