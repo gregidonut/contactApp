@@ -25,7 +25,8 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	for endpoint, fn := range map[string]func(w http.ResponseWriter, r *http.Request, app *application.Application){
-		"/": pages.Index,
+		"/":         pages.Index,
+		"/contacts": pages.Contacts,
 	} {
 
 		// these next four lines are the result of implementing a monkeypatch to any
