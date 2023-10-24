@@ -1,11 +1,12 @@
-package application
+package pages
 
 import (
+	"github.com/gregidonut/contactApp/cmd/web/controller/application"
 	"html/template"
 	"net/http"
 )
 
-func (app *Application) IndexPage(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, r *http.Request, app *application.Application) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
@@ -18,13 +19,13 @@ func (app *Application) IndexPage(w http.ResponseWriter, r *http.Request) {
 
 	ts, err := template.ParseFiles(files...)
 	if err != nil {
-		app.catchHandlerErr(w, err, http.StatusInternalServerError)
+		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
 		return
 	}
 
 	err = ts.ExecuteTemplate(w, "base", nil)
 	if err != nil {
-		app.catchHandlerErr(w, err, http.StatusInternalServerError)
+		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
 		return
 	}
 }

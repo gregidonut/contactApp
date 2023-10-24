@@ -55,7 +55,7 @@ func NewApplication() (*Application, error) {
 	return payload, nil
 }
 
-func (app *Application) catchHandlerErr(w http.ResponseWriter, err error, status int) {
+func (app *Application) CatchHandlerErr(w http.ResponseWriter, err error, status int) {
 	if err == nil {
 		goto logToSLog
 	}
