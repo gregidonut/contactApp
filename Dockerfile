@@ -1,13 +1,20 @@
-FROM golang:latest
+FROM golang:latest AS build
 
-WORKDIR /app
+WORKDIR /src
 
-RUN git clone https://github.com/gregidonut/contactApp
+COPY ./cmd /src/cmd
+COPY go.* /src
 
-WORKDIR /app/contactApp
+RUN CGO_ENABLED=0  go build -o /bin/contactApp ./cmd/web/main.go
 
-RUN go build -o app cmd/web/main.go
+FROM scratch
+
+WORKDIR /bin
+
+COPY --from=build /bin/contactApp /bin/contactApp
+COPY ./testingAssets /bin/testingAssets
+COPY ./ui /bin/ui
 
 EXPOSE 8080
 
-CMD ["./app"]
+ENTRYPOINT ["/bin/contactApp"]
