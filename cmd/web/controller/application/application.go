@@ -13,17 +13,6 @@ type Application struct {
 	Model  *model.Model
 }
 
-func (app *Application) NewHandlerFunc(
-	name string,
-	handlerFuncRef func(w http.ResponseWriter, r *http.Request),
-) *HandlerFuncWrapper {
-	return &HandlerFuncWrapper{
-		app:            app,
-		name:           name,
-		handlerFuncRef: handlerFuncRef,
-	}
-}
-
 func NewApplication() (*Application, error) {
 	payload := new(Application)
 	options := slog.HandlerOptions{
