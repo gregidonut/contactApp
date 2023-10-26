@@ -7,15 +7,15 @@ import (
 )
 
 func Contacts(w http.ResponseWriter, r *http.Request, app *application.Application) {
-	search := r.URL.Query().Get("q")
-	searchMatches, err := app.Model.SearchContacts(search)
+	search := r.URL.Query()["q"]
+	app.Logger.Info("logging query strings...", "query strings for 'q'", search)
+	searchMatches, err := app.Model.SearchContacts(search...)
 	if err != nil {
 		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	//app.Debug("printing out a list of matches")
-	app.Logger.Debug("search matches as set", "searchMatches", searchMatches)
+	app.Logger.Info("logging search matches as set...", "searchMatches", searchMatches)
 
 	files := []string{
 		"./ui/html/base.gohtml",
