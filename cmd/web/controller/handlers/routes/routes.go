@@ -28,12 +28,11 @@ func Routes(app *application.Application) *http.ServeMux {
 			hfr(w, r, app)
 		})
 	}
-	endpointRegistry := map[string]handlerFuncRef{
+	var endpointRegistry = map[string]handlerFuncRef{
 		"/":         pages.Index,
+		"/healthz":  pages.Healthz,
 		"/contacts": pages.Contacts,
-	}
-
-	// this loop is the result of implementing a monkeypatch to any HandleFunc we
+	} // this loop is the result of implementing a monkeypatch to any HandleFunc we
 	// will create(or declared in the above for endpointRegistry var) since we
 	// now rely on the monkey patch to expose more of the mainAppObj behavior to slog
 	for endpoint, hfr := range endpointRegistry {
