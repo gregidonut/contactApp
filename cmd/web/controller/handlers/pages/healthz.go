@@ -6,7 +6,7 @@ import (
 )
 
 func Healthz(w http.ResponseWriter, r *http.Request, app *application.Application) {
-	app.Info(`app was probed for health`)
-	app.Info(`redirecting to index ("/") endpoint`)
-	http.Redirect(w, r, "/", http.StatusPermanentRedirect)
+	app.Info("app was probed for health")
+	app.Info("responding with status ok")
+	w.WriteHeader(http.StatusOK)
 }
