@@ -1,12 +1,16 @@
 package routes
 
 import (
-	"fmt"
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
 	"github.com/gregidonut/contactApp/cmd/web/controller/handlers/pages"
 	"github.com/gregidonut/contactApp/cmd/web/utils/paths"
 	"net/http"
 )
+
+// handlerFuncRef is to be used as a http.HandlerFunc but with the Application pointer passed to it
+// to give it the ability to expose handler behavior with logging and also model object methods for
+// a more MVC approach to the web app
+type handlerFuncRef func(http.ResponseWriter, *http.Request, *application.Application)
 
 func Routes(app *application.Application) *http.ServeMux {
 	mux := http.NewServeMux()
@@ -16,19 +20,15 @@ func Routes(app *application.Application) *http.ServeMux {
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	//{{
-	registerHandler := func(endpoint string, handler func(http.ResponseWriter, *http.Request, *application.Application)) {
+	registerHandler := func(endpoint string, hfr handlerFuncRef) {
 		mux.HandleFunc(endpoint, func(w http.ResponseWriter, r *http.Request) {
-			app.Logger.Info(fmt.Sprintf("registering '%s' endpoint to mux...", endpoint))
-			defer app.Logger.Info(fmt.Sprintf("finished registering '%s' endpoint to mux!", endpoint))
+			app.Logger.Info("running", "endpoint", endpoint)
+			defer app.Logger.Info("completed", "endpoint", endpoint)
 
-			handler(w, r, app)
+			hfr(w, r, app)
 		})
 	}
-	endpointRegistry := map[string]func(
-		w http.ResponseWriter,
-		r *http.Request,
-		pageRegistryAppObj *application.Application,
-	){
+	endpointRegistry := map[string]handlerFuncRef{
 		"/":         pages.Index,
 		"/contacts": pages.Contacts,
 	}
@@ -36,9 +36,8 @@ func Routes(app *application.Application) *http.ServeMux {
 	// this loop is the result of implementing a monkeypatch to any HandleFunc we
 	// will create(or declared in the above for endpointRegistry var) since we
 	// now rely on the monkey patch to expose more of the mainAppObj behavior to slog
-	for endpoint, handlerFuncRef := range endpointRegistry {
-		//endpoint := endpnt
-		registerHandler(endpoint, handlerFuncRef)
+	for endpoint, hfr := range endpointRegistry {
+		registerHandler(endpoint, hfr)
 	}
 	//}}
 
