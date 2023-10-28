@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
+	"github.com/gregidonut/contactApp/cmd/web/controller/handlers/health"
 	"github.com/gregidonut/contactApp/cmd/web/controller/handlers/pages"
 	"github.com/gregidonut/contactApp/cmd/web/utils/paths"
 	"net/http"
@@ -30,9 +31,12 @@ func Routes(app *application.Application) *http.ServeMux {
 	}
 	var endpointRegistry = map[string]handlerFuncRef{
 		"/":         pages.Index,
-		"/healthz":  pages.Healthz,
 		"/contacts": pages.Contacts,
-	} // this loop is the result of implementing a monkeypatch to any HandleFunc we
+
+		"/healthz": health.Healthz,
+	}
+
+	// this loop is the result of implementing a monkeypatch to any HandleFunc we
 	// will create(or declared in the above for endpointRegistry var) since we
 	// now rely on the monkey patch to expose more of the mainAppObj behavior to slog
 	for endpoint, hfr := range endpointRegistry {

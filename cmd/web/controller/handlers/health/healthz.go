@@ -1,4 +1,4 @@
-package pages
+package health
 
 import (
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
