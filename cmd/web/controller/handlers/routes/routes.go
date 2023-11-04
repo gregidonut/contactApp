@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
+	"github.com/gregidonut/contactApp/cmd/web/controller/handlers/CRUD"
 	"github.com/gregidonut/contactApp/cmd/web/controller/handlers/health"
 	"github.com/gregidonut/contactApp/cmd/web/controller/handlers/pages"
 	"github.com/gregidonut/contactApp/cmd/web/utils/paths"
@@ -30,8 +31,9 @@ func Routes(app *application.Application) *http.ServeMux {
 		})
 	}
 	var endpointRegistry = map[string]handlerFuncRef{
-		"/":         pages.Index,
-		"/contacts": pages.Contacts,
+		"/":             pages.Index,
+		"/contacts":     pages.Contacts,
+		"/contacts/new": CRUD.ContactsNew,
 
 		"/healthz": health.Healthz,
 	}
