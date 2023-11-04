@@ -1,54 +1,43 @@
 {{ define "contacts" }}
-    <style>
-        ul#contacts {
-            width: max-content;
+    <link rel="stylesheet" href="/static/components/contacts.css">
+    <table id="contacts">
+        <thead>
+        <tr>
+            <th>First</th>
+            <th>Last</th>
+            <th>Phone</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
 
-            list-style: none;
-
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-            justify-content: center;
-            gap: 2rem;
-
-            padding: 0 1rem;
-        }
-
-        ul#contacts li {
-            width: 100%;
-            background: orange;
-            padding: 1rem;
-        }
-
-        ul#contacts li h3 {
-            color: purple;
-        }
-
-    </style>
-    <ul id="contacts">
-        {{ range . }}
-            <li>
-                <h3>
-                    {{ .FirstName }} {{ .LastName }}
-                </h3>
-                <p>
-                    Phone:
+        {{ range .SearchMatches }}
+            <tr>
+                <td>{{ .FirstName }}</td>
+                <td>{{ .LastName }}</td>
+                <td>
                     <a href="tel:+{{ .PhoneNumber }}">
-                        <span class="phone-number-text">
-                            {{ .PhoneNumber }}
-                        </span>
+                            <span class="phone-number-text">
+                                {{ .PhoneNumber }}
+                            </span>
                     </a>
-                    <br>
-                    Email: <a href="mailto:{{ .EmailAddress }}">{{ .EmailAddress }}</a>
-                </p>
-            </li>
+                </td>
+                <td>
+                    <a href="mailto:{{ .EmailAddress }}">{{ .EmailAddress }}</a>
+                </td>
+                <td>
+                    <a href="/contacts/{{ .ID }}/edit">Edit</a>
+                    <a href="/contacts/{{ .ID }}">View</a>
+                </td>
+            </tr>
         {{ end }}
-    </ul>
+        </tbody>
+    </table>
     <script>
         // adding dashes to the phone numbers
         const phoneNumberSpanElems = document.querySelectorAll("span.phone-number-text")
         phoneNumberSpanElems.forEach((baseElem) => {
-            baseElem.innerText = baseElem.innerText.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")
+            baseElem.innerText = "+1-" + baseElem.innerText.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")
         })
     </script>
 {{ end }}

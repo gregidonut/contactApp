@@ -1,0 +1,56 @@
+table#contacts {
+    background: darkgrey;
+
+    display: grid;
+    grid-template-columns: auto;
+
+    width: 100rem;
+    padding: 1rem;
+    gap: .8rem;
+}
+
+table#contacts thead tr {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 1rem;
+
+    justify-content: start;
+}
+
+table#contacts thead tr th {
+    background: navy;
+    min-width: 15rem;
+}
+
+table#contacts thead tr th:last-child {
+    min-width: 30rem;
+}
+
+
+table#contacts tbody tr {
+    display: grid;
+    grid-template-columns: auto auto auto auto 1fr;
+
+    gap: 1rem;
+
+    justify-content: start;
+
+    width: 100%;
+}
+
+table#contacts tbody tr td {
+    background: grey;
+
+    min-width: 15rem;
+    padding: 0 .3rem;
+}
+
+table#contacts tbody tr td:last-child {
+    background: none;
+
+    text-align: end;
+}
+
+table#contacts tbody tr td:nth-last-child(2) {
+    min-width: 30rem;
+}

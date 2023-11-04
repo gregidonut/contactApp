@@ -1,0 +1,8 @@
+{{ define "searchForm" }}
+    <form action="/contacts" method="get">
+        <label for="search">Search Term</label>
+        <input id="search" type="search" name="q"
+               value="{{ .LastSearchQuery }}"/>
+        <input type="submit" value="Search"/>
+    </form>
+{{ end }}

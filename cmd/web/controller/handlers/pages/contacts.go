@@ -2,8 +2,10 @@ package pages
 
 import (
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
+	"github.com/gregidonut/contactApp/cmd/web/model/contact"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 func Contacts(w http.ResponseWriter, r *http.Request, app *application.Application) {
@@ -20,6 +22,7 @@ func Contacts(w http.ResponseWriter, r *http.Request, app *application.Applicati
 	files := []string{
 		"./ui/html/base.gohtml",
 		"./ui/html/pages/index.gohtml",
+		"./ui/html/components/searchForm.gohtml",
 		"./ui/html/components/contacts.gohtml",
 	}
 
@@ -29,7 +32,14 @@ func Contacts(w http.ResponseWriter, r *http.Request, app *application.Applicati
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", searchMatches)
+	err = ts.ExecuteTemplate(w, "base", struct {
+		LastSearchQuery string
+		SearchMatches   map[int]*contact.Contact
+	}{
+		LastSearchQuery: strings.Join(search, ", "),
+		SearchMatches:   searchMatches,
+	})
+
 	if err != nil {
 		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
 		return
