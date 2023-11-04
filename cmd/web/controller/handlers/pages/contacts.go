@@ -2,7 +2,7 @@ package pages
 
 import (
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
-	"github.com/gregidonut/contactApp/cmd/web/model/contact"
+	"github.com/gregidonut/contactApp/cmd/web/model"
 	"html/template"
 	"net/http"
 	"strings"
@@ -34,7 +34,7 @@ func Contacts(w http.ResponseWriter, r *http.Request, app *application.Applicati
 
 	err = ts.ExecuteTemplate(w, "base", struct {
 		LastSearchQuery string
-		SearchMatches   map[int]*contact.Contact
+		SearchMatches   model.ContactsSet
 	}{
 		LastSearchQuery: strings.Join(search, ", "),
 		SearchMatches:   searchMatches,

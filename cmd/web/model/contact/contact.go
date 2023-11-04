@@ -1,14 +1,16 @@
 package contact
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type Contact struct {
-	ID           int    `json:"id,omitempty"`
-	FirstName    string `json:"firstName,omitempty"`
-	LastName     string `json:"lastName,omitempty"`
-	PhoneNumber  string `json:"phoneNumber,omitempty"`
-	EmailAddress string `json:"emailAddress,omitempty"`
+	ID           primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	FirstName    string             `json:"firstName,omitempty"`
+	LastName     string             `json:"lastName,omitempty"`
+	PhoneNumber  string             `json:"phoneNumber,omitempty"`
+	EmailAddress string             `json:"emailAddress,omitempty"`
 }
 
-func NewContact(id int, firstName, lastName, phoneNumber, email string) (*Contact, error) {
+func NewContact(id primitive.ObjectID, firstName, lastName, phoneNumber, email string) (*Contact, error) {
 	payload := new(Contact)
 	payload.ID = id
 	payload.FirstName = firstName
