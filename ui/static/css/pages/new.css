@@ -11,8 +11,14 @@ main form {
 main form fieldset {
     width: max-content;
     padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    gap: 1rem;
 }
 
-main form fieldset p {
-    text-align: right;
+main form fieldset button {
+    padding: 0 1rem;
 }
