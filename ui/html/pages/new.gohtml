@@ -3,7 +3,41 @@
 
     <link rel="stylesheet" href="/static/css/pages/new.css">
     <main>
-        <h2>this is new contact page</h2>
+        <h2>New Contact</h2>
+        <form action="/contacts/new" method="post">
+            <fieldset>
+                <legend>Contact Values</legend>
+                <p>
+                    <label for="email">Email</label>
+                    <input name="email" id="email" type="email" placeholder="Email"
+                           value="">
+{{/*                    <span class="error">error?</span>*/}}
+                </p>
+                <p>
+                    <label for="first_name">First Name</label>
+                    <input name="first_name" id="first_name" type="text" placeholder="First Name"
+                           value="">
+{{/*                    <span class="error">error?</span>*/}}
+                </p>
+                <p>
+                    <label for="last_name">Last Name</label>
+                    <input name="last_name" id="last_name" type="text" placeholder="Last Name"
+                           value="">
+{{/*                    <span class="error">error?</span>*/}}
+                </p>
+                <p>
+                    <label for="phone">Phone</label>
+                    <input name="phone" id="phone" type="text" placeholder="Phone"
+                           value="">
+{{/*                    <span class="error">error?</span>*/}}
+                </p>
+
+                <button>Save</button>
+            </fieldset>
+        </form>
+        <p>
+            <a href="/contacts">Back</a>
+        </p>
     </main>
 
 {{end}}

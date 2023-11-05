@@ -2,3 +2,17 @@ main {
     flex-grow: 1;
     width: 100%;
 }
+
+main form {
+    width: max-content;
+    padding: 1rem;
+}
+
+main form fieldset {
+    width: max-content;
+    padding: 1rem;
+}
+
+main form fieldset p {
+    text-align: right;
+}
