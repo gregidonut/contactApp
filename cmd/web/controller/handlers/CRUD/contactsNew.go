@@ -1,6 +1,7 @@
 package CRUD
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
 	"html/template"
@@ -36,7 +37,32 @@ func ContactsNew(w http.ResponseWriter, r *http.Request, app *application.Applic
 		return
 	}
 
-	app.Logger.Info("submitting form since received POST method..")
+	app.Logger.Info("parsing form since received POST method..")
+
+	if err := r.ParseForm(); err != nil {
+		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
+		return
+	}
+
+	email := r.Form.Get("email")
+	firstName := r.Form.Get("first-name")
+	lastName := r.Form.Get("last-name")
+	phone := r.Form.Get("phone")
+
+	formFields := []string{email, firstName, lastName, phone}
+	app.Logger.Debug("logging form fields: ", "fields", formFields)
+
+	for _, field := range formFields {
+		if field == "" {
+			app.CatchHandlerErr(w, errors.New("required field empty"), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	app.Logger.Info("creating new Contact instance...")
+	if err := app.Model.NewContact(firstName, lastName, phone, email); err != nil {
+		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
+	}
 
 	return
 }

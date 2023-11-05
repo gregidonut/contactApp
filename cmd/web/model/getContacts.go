@@ -26,7 +26,7 @@ func (m *Model) getContacts() error {
 	}
 	m.app.Debug("logging contents of contacts in model", "[]contacts", m.Contacts)
 
-	if err := cur.Err(); err != nil {
+	if err = cur.Err(); err != nil {
 		return err
 	}
 
