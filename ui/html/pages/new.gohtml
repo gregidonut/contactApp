@@ -9,27 +9,43 @@
                 <legend>Contact Values</legend>
                 <p>
                     <label for="email">Email</label>
-                    <input name="email" id="email" type="email" placeholder="Email"
-                           value="">
-{{/*                    <span class="error">error?</span>*/}}
+                    <input name="email"
+                           id="email"
+                           type="email"
+                           placeholder="Email"
+                           required
+                           value="{{ .EmailAddress }}">
+                    {{/*                    <span class="error">error?</span>*/}}
                 </p>
                 <p>
-                    <label for="first_name">First Name</label>
-                    <input name="first-name" id="first-name" type="text" placeholder="First Name"
-                           value="">
-{{/*                    <span class="error">error?</span>*/}}
+                    <label for="first-name">First Name</label>
+                    <input name="first-name"
+                           id="first-name"
+                           type="text"
+                           placeholder="First Name"
+                           required
+                           value="{{ .FirstName }}">
+                    {{/*                    <span class="error">error?</span>*/}}
                 </p>
                 <p>
-                    <label for="last_name">Last Name</label>
-                    <input name="last-name" id="last-name" type="text" placeholder="Last Name"
-                           value="">
-{{/*                    <span class="error">error?</span>*/}}
+                    <label for="last-name">Last Name</label>
+                    <input name="last-name"
+                           id="last-name"
+                           type="text"
+                           placeholder="Last Name"
+                           required
+                           value="{{ .LastName }}">
+                    {{/*                    <span class="error">error?</span>*/}}
                 </p>
                 <p>
                     <label for="phone">Phone</label>
-                    <input name="phone" id="phone" type="text" placeholder="Phone"
-                           value="">
-{{/*                    <span class="error">error?</span>*/}}
+                    <input name="phone"
+                           id="phone"
+                           type="text"
+                           placeholder="Phone"
+                           required
+                           value="{{ .PhoneNumber }}">
+                    {{/*                    <span class="error">error?</span>*/}}
                 </p>
 
                 <button>Save</button>
