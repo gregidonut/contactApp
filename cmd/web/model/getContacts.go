@@ -6,12 +6,17 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"os"
 )
+
+const MONGO_URI = "MONGO_URI"
 
 var ctx = context.TODO()
 
 func (m *Model) getContacts() error {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/")
+	mongoURIEnvVarVal := os.Getenv(MONGO_URI)
+
+	clientOptions := options.Client().ApplyURI(mongoURIEnvVarVal)
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		return err
