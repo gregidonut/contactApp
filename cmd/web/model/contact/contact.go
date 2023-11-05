@@ -9,14 +9,3 @@ type Contact struct {
 	PhoneNumber  string             `json:"phoneNumber,omitempty"`
 	EmailAddress string             `json:"emailAddress,omitempty"`
 }
-
-func NewContact(id primitive.ObjectID, firstName, lastName, phoneNumber, email string) (*Contact, error) {
-	payload := new(Contact)
-	payload.ID = id
-	payload.FirstName = firstName
-	payload.LastName = lastName
-	payload.PhoneNumber = phoneNumber
-	payload.EmailAddress = email
-
-	return payload, nil
-}

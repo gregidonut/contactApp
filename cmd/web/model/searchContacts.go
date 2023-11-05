@@ -12,12 +12,12 @@ func (m *Model) SearchContacts(filters ...string) (ContactsSet, error) {
 	payload := ContactsSet{}
 
 	if (len(filters) == 1 && filters[0] == "") || len(filters) == 0 || filters == nil {
-		m.app.Warning("search contacts called without args returning all contacts")
-		return m.contacts, nil
+		m.app.Warning("search Contacts called without args returning all contacts")
+		return m.Contacts, nil
 	}
 
 	for _, filter := range filters {
-		for _, cont := range m.contacts {
+		for _, cont := range m.Contacts {
 			v := reflect.ValueOf(*cont)
 			for i := 0; i < v.NumField(); i++ {
 				field := v.Field(i)
