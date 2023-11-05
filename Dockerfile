@@ -1,5 +1,9 @@
 FROM golang:latest AS build
 
+RUN apt update
+RUN apt install -y ca-certificates
+RUN update-ca-certificates
+
 WORKDIR /src
 
 COPY ./cmd /src/cmd
@@ -11,8 +15,8 @@ FROM scratch
 
 WORKDIR /bin
 
+COPY --from=build /etc/ssl /etc/ssl
 COPY --from=build /bin/contactApp /bin/contactApp
-COPY ./testingAssets /bin/testingAssets
 COPY ./ui /bin/ui
 
 EXPOSE 8080
