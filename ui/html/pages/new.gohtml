@@ -14,7 +14,7 @@
                            type="email"
                            placeholder="Email"
                            required
-                           value="{{ .EmailAddress }}">
+                           value="{{ .Cont.EmailAddress }}">
                     {{/*                    <span class="error">error?</span>*/}}
                 </p>
                 <p>
@@ -24,7 +24,7 @@
                            type="text"
                            placeholder="First Name"
                            required
-                           value="{{ .FirstName }}">
+                           value="{{ .Cont.FirstName }}">
                     {{/*                    <span class="error">error?</span>*/}}
                 </p>
                 <p>
@@ -34,7 +34,7 @@
                            type="text"
                            placeholder="Last Name"
                            required
-                           value="{{ .LastName }}">
+                           value="{{ .Cont.LastName }}">
                     {{/*                    <span class="error">error?</span>*/}}
                 </p>
                 <p>
@@ -44,13 +44,18 @@
                            type="text"
                            placeholder="Phone"
                            required
-                           value="{{ .PhoneNumber }}">
+                           value="{{ .Cont.PhoneNumber }}">
                     {{/*                    <span class="error">error?</span>*/}}
                 </p>
 
                 <button>Save</button>
             </fieldset>
         </form>
+        {{ if .Err }}
+            <p>
+                <span class="error-message">Error: {{ .Err }}</span>
+            </p>
+        {{ end }}
         <p>
             <a href="/contacts">Back</a>
         </p>

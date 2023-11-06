@@ -19,7 +19,13 @@ func ContactsNew(w http.ResponseWriter, r *http.Request, app *application.Applic
 		return
 	}
 
-	newContact := contact.Contact{}
+	newContact := struct {
+		Cont contact.Contact
+		Err  error
+	}{
+		Cont: contact.Contact{},
+		Err:  nil,
+	}
 	if r.Method == http.MethodPost {
 		app.Logger.Info("parsing form since received POST method..")
 
@@ -43,7 +49,8 @@ func ContactsNew(w http.ResponseWriter, r *http.Request, app *application.Applic
 		//app.CatchHandlerErr(w, err, http.StatusInternalServerError)
 		app.Logger.Warn("caught error when creating new form instance rendering form again", "error", err.Error())
 
-		newContact = *newCont
+		newContact.Cont = *newCont
+		newContact.Err = err
 	}
 
 	ts, err := template.ParseFiles(files...)

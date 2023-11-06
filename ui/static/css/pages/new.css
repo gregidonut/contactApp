@@ -22,3 +22,9 @@ main form fieldset {
 main form fieldset button {
     padding: 0 1rem;
 }
+
+main p span.error-message {
+    background: grey;
+    color: maroon;
+    padding: 0 1rem;
+}
