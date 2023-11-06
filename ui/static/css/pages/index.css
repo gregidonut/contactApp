@@ -2,3 +2,11 @@ main {
     flex-grow: 1;
     width: 100%;
 }
+
+main p.add-contact-link {
+    width: max-content;
+    background: grey;
+    margin: .2rem;
+    padding: 0.2rem 1rem;
+    border-radius: .2rem;
+}

@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	DEFAULT_PORT = ":7777"
+	DEFAULT_PORT = ":8080"
 )
 
 func main() {
