@@ -35,10 +35,13 @@ func ContactsNew(w http.ResponseWriter, r *http.Request, app *application.Applic
 			r.Form.Get("phone"),
 			r.Form.Get("email"),
 		)
-		if err != nil {
-			app.CatchHandlerErr(w, err, http.StatusInternalServerError)
+		if err == nil {
+			http.Redirect(w, r, "/contacts", http.StatusPermanentRedirect)
 			return
 		}
+
+		//app.CatchHandlerErr(w, err, http.StatusInternalServerError)
+		app.Logger.Warn("caught error when creating new form instance rendering form again", "error", err.Error())
 
 		newContact = *newCont
 	}
@@ -49,9 +52,11 @@ func ContactsNew(w http.ResponseWriter, r *http.Request, app *application.Applic
 		return
 	}
 
+	app.Logger.Debug("logging contents of newContact struct for template", "newContact", newContact)
 	err = ts.ExecuteTemplate(w, "base", newContact)
 	if err != nil {
 		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
 		return
 	}
+
 }

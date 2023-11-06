@@ -10,6 +10,11 @@ import (
 func (m *Model) NewContact(firstName, lastName, phoneNumber, email string) (*contact.Contact, error) {
 	payload := new(contact.Contact)
 
+	payload.FirstName = firstName
+	payload.LastName = lastName
+	payload.PhoneNumber = phoneNumber
+	payload.EmailAddress = email
+
 	for _, f := range []string{
 		firstName,
 		lastName,
@@ -23,11 +28,6 @@ func (m *Model) NewContact(firstName, lastName, phoneNumber, email string) (*con
 	if len([]byte(phoneNumber)) != 10 {
 		return payload, errors.New("phone Number field length is not 10")
 	}
-
-	payload.FirstName = firstName
-	payload.LastName = lastName
-	payload.PhoneNumber = phoneNumber
-	payload.EmailAddress = email
 
 	if err := m.genMongoCollection(); err != nil {
 		return payload, err
