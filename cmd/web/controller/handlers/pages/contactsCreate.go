@@ -1,4 +1,4 @@
-package CRUD
+package pages
 
 import (
 	"fmt"
