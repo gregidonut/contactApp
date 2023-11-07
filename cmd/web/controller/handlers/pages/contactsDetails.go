@@ -13,7 +13,6 @@ import (
 func ContactsDetails(w http.ResponseWriter, r *http.Request, app *application.Application) {
 	contactId := mux.Vars(r)["id"]
 	app.Logger.Debug("logging contactId from url var", "mux.Vars(r)[\"id\"]", contactId)
-	app.Logger.Debug("validating existence from Model.ContactSet")
 
 	objectID, err := primitive.ObjectIDFromHex(contactId)
 	if err != nil {
@@ -24,11 +23,13 @@ func ContactsDetails(w http.ResponseWriter, r *http.Request, app *application.Ap
 		)
 		return
 	}
+	app.Logger.Debug("validating existence from Model.ContactSet")
 	cont, ok := app.Model.Contacts[objectID]
 	if !ok {
 		app.CatchHandlerErr(w, errors.New(fmt.Sprintf("contactID: %s; doesn't exist", contactId)), http.StatusBadRequest)
 		return
 	}
+	app.Logger.Debug("validation successful!!")
 
 	files := []string{
 		"./ui/html/base.gohtml",
