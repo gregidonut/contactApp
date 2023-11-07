@@ -15,15 +15,14 @@ import (
 type handlerFuncRef func(http.ResponseWriter, *http.Request, *application.Application)
 
 func Routes(app *application.Application) *mux.Router {
-	appMux := mux.NewRouter()
+	gorillaMux := mux.NewRouter()
 
 	app.Logger.Info("starting FileServer at /static")
 	fileServer := http.FileServer(http.Dir(paths.STATIC))
-	appMux.Handle("/static/", http.StripPrefix("/static", fileServer))
+	gorillaMux.PathPrefix("/static/").Handler(http.StripPrefix("/static", fileServer))
 
-	//{{
 	registerHandler := func(endpoint string, hfr handlerFuncRef) {
-		appMux.HandleFunc(endpoint, func(w http.ResponseWriter, r *http.Request) {
+		gorillaMux.HandleFunc(endpoint, func(w http.ResponseWriter, r *http.Request) {
 			app.Logger.Info("running", "endpoint", endpoint)
 			defer app.Logger.Info("completed", "endpoint", endpoint)
 
@@ -47,5 +46,5 @@ func Routes(app *application.Application) *mux.Router {
 	}
 	//}}
 
-	return appMux
+	return gorillaMux
 }
