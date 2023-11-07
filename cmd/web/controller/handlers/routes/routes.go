@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/gorilla/mux"
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
 	"github.com/gregidonut/contactApp/cmd/web/controller/handlers/health"
 	"github.com/gregidonut/contactApp/cmd/web/controller/handlers/pages"
@@ -13,16 +14,16 @@ import (
 // a more MVC approach to the web app
 type handlerFuncRef func(http.ResponseWriter, *http.Request, *application.Application)
 
-func Routes(app *application.Application) *http.ServeMux {
-	mux := http.NewServeMux()
+func Routes(app *application.Application) *mux.Router {
+	appMux := mux.NewRouter()
 
 	app.Logger.Info("starting FileServer at /static")
 	fileServer := http.FileServer(http.Dir(paths.STATIC))
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+	appMux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	//{{
 	registerHandler := func(endpoint string, hfr handlerFuncRef) {
-		mux.HandleFunc(endpoint, func(w http.ResponseWriter, r *http.Request) {
+		appMux.HandleFunc(endpoint, func(w http.ResponseWriter, r *http.Request) {
 			app.Logger.Info("running", "endpoint", endpoint)
 			defer app.Logger.Info("completed", "endpoint", endpoint)
 
@@ -30,9 +31,10 @@ func Routes(app *application.Application) *http.ServeMux {
 		})
 	}
 	var endpointRegistry = map[string]handlerFuncRef{
-		"/":             pages.Index,
-		"/contacts":     pages.Contacts,
-		"/contacts/new": pages.ContactsNew,
+		"/":              pages.Index,
+		"/contacts":      pages.Contacts,
+		"/contacts/{id}": pages.ContactsDetails,
+		"/contacts/new":  pages.ContactsNew,
 
 		"/healthz": health.Healthz,
 	}
@@ -45,5 +47,5 @@ func Routes(app *application.Application) *http.ServeMux {
 	}
 	//}}
 
-	return mux
+	return appMux
 }
