@@ -24,7 +24,7 @@ func ContactsDetails(w http.ResponseWriter, r *http.Request, app *application.Ap
 		)
 		return
 	}
-	_, ok := app.Model.Contacts[objectID]
+	cont, ok := app.Model.Contacts[objectID]
 	if !ok {
 		app.CatchHandlerErr(w, errors.New(fmt.Sprintf("contactID: %s; doesn't exist", contactId)), http.StatusBadRequest)
 		return
@@ -41,7 +41,7 @@ func ContactsDetails(w http.ResponseWriter, r *http.Request, app *application.Ap
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", contactId)
+	err = ts.ExecuteTemplate(w, "base", cont)
 	if err != nil {
 		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
 		return

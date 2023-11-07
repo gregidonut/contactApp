@@ -1,15 +1,17 @@
 {{define "title"}}Contact Details{{end}}
 {{define "main"}}
-{{/*    <h1>{{.First}} {{.Last}}</h1>*/}}
+    <main>
+        <h2>{{ .FirstName }} {{ .LastName }}</h2>
 
-{{/*    <div>*/}}
-{{/*        <div>Phone: {{.Phone}}</div>*/}}
-{{/*        <div>Email: {{.Email}}</div>*/}}
-{{/*    </div>*/}}
+        <div>
+            <div>Phone: {{ .PhoneNumber }}</div>
+            <div>Email: {{ .EmailAddress }}</div>
+        </div>
 
-{{/*    <p>*/}}
-{{/*        <a href="/contacts/{{.ID}}/edit">Edit</a>*/}}
-{{/*        <a href="/contacts">Back</a>*/}}
-{{/*    </p>*/}}
-    <h2>contactDetails for contact: {{.}}</h2>
+        <p>
+            <a href="/contacts/{{ .ID }}/edit">Edit</a>
+            <a href="/contacts">Back</a>
+        </p>
+    </main>
+
 {{end}}
