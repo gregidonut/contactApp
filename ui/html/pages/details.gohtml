@@ -1,17 +1,22 @@
 {{define "title"}}Contact Details{{end}}
 {{define "main"}}
+    <link rel="stylesheet" href="/static/css/pages/details.css">
     <main>
         <h2>{{ .FirstName }} {{ .LastName }}</h2>
 
-        <div>
-            <div>Phone: {{ .PhoneNumber }}</div>
-            <div>Email: {{ .EmailAddress }}</div>
-        </div>
+        <p>
+            <a href="tel:+{{ .PhoneNumber }}">
+                                <span class="phone-number-text">
+                                    {{ .PhoneNumber }}
+                                </span>
+            </a>
+            <a href="mailto:{{ .EmailAddress }}">Email: {{ .EmailAddress }}</a>
+        </p>
 
         <p>
             <a href="/contacts/{{ .ID }}/edit">Edit</a>
             <a href="/contacts">Back</a>
         </p>
     </main>
-
+    <script src="static/js/addDashesToPhoneNumbers.js" type="module"></script>
 {{end}}
