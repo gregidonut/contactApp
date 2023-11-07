@@ -9,11 +9,6 @@ import (
 )
 
 func ContactsNew(w http.ResponseWriter, r *http.Request, app *application.Application) {
-	files := []string{
-		"./ui/html/base.gohtml",
-		"./ui/html/pages/new.gohtml",
-	}
-
 	if r.Method != http.MethodGet && r.Method != http.MethodPost {
 		app.Logger.Warn(fmt.Sprintf("unhandled, Method type: %s; doing nothing...", r.Method))
 		return
@@ -51,6 +46,11 @@ func ContactsNew(w http.ResponseWriter, r *http.Request, app *application.Applic
 
 		newContact.Cont = *newCont
 		newContact.Err = err
+	}
+
+	files := []string{
+		"./ui/html/base.gohtml",
+		"./ui/html/pages/new.gohtml",
 	}
 
 	ts, err := template.ParseFiles(files...)

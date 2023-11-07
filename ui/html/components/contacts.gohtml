@@ -13,21 +13,21 @@
 
         {{ range .SearchMatches }}
             <tr>
-                <td>{{ .FirstName }}</td>
-                <td>{{ .LastName }}</td>
+                <td>{{ .Contact.FirstName }}</td>
+                <td>{{ .Contact.LastName }}</td>
                 <td>
-                    <a href="tel:+{{ .PhoneNumber }}">
+                    <a href="tel:+{{ .Contact.PhoneNumber }}">
                             <span class="phone-number-text">
-                                {{ .PhoneNumber }}
+                                {{ .Contact.PhoneNumber }}
                             </span>
                     </a>
                 </td>
                 <td>
-                    <a href="mailto:{{ .EmailAddress }}">{{ .EmailAddress }}</a>
+                    <a href="mailto:{{ .Contact.EmailAddress }}">{{ .Contact.EmailAddress }}</a>
                 </td>
                 <td>
-                    <a href="/contacts/{{ .ID }}/edit">Edit</a>
-                    <a href="/contacts/{{ .ID }}">View</a>
+                    <a href="/contacts/{{ .IDHex }}/edit">Edit</a>
+                    <a href="/contacts/{{ .IDHex }}">View</a>
                 </td>
             </tr>
         {{ end }}
