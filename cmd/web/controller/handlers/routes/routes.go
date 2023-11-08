@@ -30,10 +30,11 @@ func Routes(app *application.Application) *mux.Router {
 		})
 	}
 	var endpointRegistry = map[string]handlerFuncRef{
-		"/":                              pages.Index,
-		"/contacts":                      pages.Contacts,
-		"/contacts/{id:[A-Za-z0-9]{24}}": pages.ContactsDetails,
-		"/contacts/new":                  pages.ContactsNew,
+		"/":                                   pages.Index,
+		"/contacts":                           pages.Contacts,
+		"/contacts/{id:[A-Za-z0-9]{24}}":      pages.ContactsDetails,
+		"/contacts/{id:[A-Za-z0-9]{24}}/edit": pages.ContactsEdit,
+		"/contacts/new":                       pages.ContactsNew,
 
 		"/healthz": health.Healthz,
 	}
