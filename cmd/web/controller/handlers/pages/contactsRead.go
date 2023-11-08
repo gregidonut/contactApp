@@ -35,7 +35,7 @@ func Contacts(w http.ResponseWriter, r *http.Request, app *application.Applicati
 
 	files := []string{
 		"./ui/html/base.gohtml",
-		"./ui/html/pages/index.gohtml",
+		"./ui/html/pages/contacts.gohtml",
 		"./ui/html/components/searchForm.gohtml",
 		"./ui/html/components/contacts.gohtml",
 	}
