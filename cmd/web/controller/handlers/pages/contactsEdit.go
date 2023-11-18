@@ -1,12 +1,36 @@
 package pages
 
 import (
+	"errors"
+	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/gregidonut/contactApp/cmd/web/controller/application"
+	"github.com/gregidonut/contactApp/cmd/web/model/contact"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"html/template"
 	"net/http"
 )
 
 func ContactsEdit(w http.ResponseWriter, r *http.Request, app *application.Application) {
+	contactId := mux.Vars(r)["id"]
+	app.Logger.Debug("logging contactId from url var", "mux.Vars(r)[\"id\"]", contactId)
+
+	objectID, err := primitive.ObjectIDFromHex(contactId)
+	if err != nil {
+		app.CatchHandlerErr(
+			w,
+			errors.New(fmt.Sprintf("unable to cast hex contactID: %s into mongodb objectid", contactId)),
+			http.StatusInternalServerError,
+		)
+		return
+	}
+	app.Logger.Debug("validating existence from Model.ContactSet")
+	cont, ok := app.Model.Contacts[objectID]
+	if !ok {
+		app.CatchHandlerErr(w, errors.New(fmt.Sprintf("contactID: %s; doesn't exist", contactId)), http.StatusBadRequest)
+		return
+	}
+	app.Logger.Debug("validation successful!!")
 
 	files := []string{
 		"./ui/html/base.gohtml",
@@ -19,8 +43,13 @@ func ContactsEdit(w http.ResponseWriter, r *http.Request, app *application.Appli
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", nil)
-
+	err = ts.ExecuteTemplate(w, "base", struct {
+		Contact contact.Contact
+		IDHex   string
+	}{
+		Contact: *cont,
+		IDHex:   cont.ID.Hex(),
+	})
 	if err != nil {
 		app.CatchHandlerErr(w, err, http.StatusInternalServerError)
 		return
